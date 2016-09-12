@@ -3,11 +3,11 @@ public class Vision {
     public String VISION_API='https://api.metamind.io';
     public STRING PREDICT=VISION_API + '/predict';
 
-    public static String predictUrl(String url, String apiKey, String model) {
-        return predictInternal(url, apiKey, model);
+    public static String predictUrl(String url, String access_token, String model) {
+        return predictInternal(url, access_token, model);
     }
 
-    private static String predictInternal(String url, String apiKey, String model) {
+    private static String predictInternal(String url, String access_token, String model) {
         string contentType = HttpFormBuilder.GetContentType();
         //  Compose the form
         string form64 = '';
@@ -33,7 +33,7 @@ public class Vision {
         httpRequest.setHeader('Content-Type', contentType);
         httpRequest.setMethod('POST');
         httpRequest.setTimeout(120000);
-        httpRequest.setHeader('Authorization','APIKEY apikey=' + apiKey);
+        httpRequest.setHeader('Authorization','APIKEY apikey=' + access_token);
         httpRequest.setEndpoint('https://api.metamind.io/predict');
         
         Http http = new Http();
