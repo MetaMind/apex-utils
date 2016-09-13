@@ -6,7 +6,7 @@ Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_
 ```
 public class VisionController {
     public List<Vision.Prediction> getCallVision() {
-        return Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_Husky_with_Blue_Eyes.jpg','9o7ifanb0tgiltbb4g3pdg5vm4hchstsokh1n5l7dmtlp3j56evn7hgg0mkac3ih','GeneralImageClassifier');
+        return Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_Husky_with_Blue_Eyes.jpg',<ACCESS_TOKEN>,'GeneralImageClassifier');
     }
 }
 ```
