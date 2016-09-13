@@ -17,8 +17,8 @@ public class VisionController {
   This is your new Page
   <apex:form >
   <apex:pageBlock >
-      <apex:repeat value="{!callVision}" var="prob">
-          <apex:outputText value="{!prob.label}" />:<apex:outputText value="{!prob.probability}" /><br/>
+      <apex:repeat value="{!callVision}" var="prediction">
+          <apex:outputText value="{!prediction.label}" />:<apex:outputText value="{!prediction.probability}" /><br/>
     </apex:repeat>
   </apex:pageBlock>
   </apex:form>
