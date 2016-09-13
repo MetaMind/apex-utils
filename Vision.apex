@@ -3,19 +3,15 @@ public class Vision {
     public String VISION_API='https://api.metamind.io';
     public STRING PREDICT=VISION_API + '/predict';
 
-    public static String predictUrl(String url, String access_token, String model) {
-        return predictInternal(url, access_token, model);
+    public static List<Prediction> predictUrl(String url, String apiKey, String model) {
+        return predictInternal(url, apiKey, model);
     }
 
-    private static String predictInternal(String url, String access_token, String model) {
+    private static List<Prediction> predictInternal(String url, String apiKey, String model) {
         string contentType = HttpFormBuilder.GetContentType();
         //  Compose the form
         string form64 = '';
 
-        form64 += HttpFormBuilder.WriteBoundary();
-        form64 += HttpFormBuilder.WriteBodyParameter('sampleType', EncodingUtil.urlEncode('image', 'UTF-8'));
-        form64 += HttpFormBuilder.WriteBoundary();
-        form64 += HttpFormBuilder.WriteBodyParameter('sampleTypeVersion', EncodingUtil.urlEncode('1', 'UTF-8'));
         form64 += HttpFormBuilder.WriteBoundary();
         form64 += HttpFormBuilder.WriteBodyParameter('modelId', EncodingUtil.urlEncode(model, 'UTF-8'));
         form64 += HttpFormBuilder.WriteBoundary();
@@ -33,19 +29,44 @@ public class Vision {
         httpRequest.setHeader('Content-Type', contentType);
         httpRequest.setMethod('POST');
         httpRequest.setTimeout(120000);
-        httpRequest.setHeader('Authorization','APIKEY apikey=' + access_token);
+        httpRequest.setHeader('Authorization','APIKEY apikey=' + apiKey);
         httpRequest.setEndpoint('https://api.metamind.io/predict');
         
         Http http = new Http();
-
+        List<Prediction> predictions = new List<Prediction>();
         try {
               HTTPResponse res = http.send(httpRequest);   
+              if (res.getStatusCode() == 200) {
+                  System.JSONParser parser = System.JSON.createParser(res.getBody());
+                  while (parser.nextToken() != null) {
+                      if ((parser.getCurrentToken() == JSONToken.FIELD_NAME) && (parser.getText() == 'probabilities')) {
+                          parser.nextToken();
+                            if (parser.getCurrentToken() == JSONToken.START_ARRAY) {
+                                while (parser.nextToken() != null) {
+                                    // Advance to the start object marker to
+                                    //  find next probability object.
+                                    if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
+                                        // Read entire probability object
+                                        Prediction probability = (Prediction)parser.readValueAs(Vision.Prediction.class);
+                                        predictions.add(probability);
+                                    }
+                                }
+                            }
+                      break;
+                      }
+                  }
+              }
               //System.debug(res.toString());
               //System.debug('STATUS:'+res.getStatus());
               //System.debug('STATUS_CODE:'+res.getStatusCode());
-              return(res.getBody());
          } catch(System.CalloutException e) {
-                return e.getStackTraceString();
+                System.debug('ERROR:' + e);
          }  
+         return(predictions);
+    }
+    
+    public class Prediction {
+        public String label {get;set;}
+        public Double probability {get;set;}
     }
 }
