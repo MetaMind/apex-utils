@@ -1,7 +1,7 @@
 public class Vision {
 
-    public String VISION_API='https://api.metamind.io';
-    public STRING PREDICT=VISION_API + '/predict';
+    public static String VISION_API = 'https://api.metamind.io';
+    public static String PREDICT = VISION_API + '/predict';
 
     public static List<Prediction> predictUrl(String url, String apiKey, String model) {
         return predictInternal(url, apiKey, model);
@@ -30,7 +30,7 @@ public class Vision {
         httpRequest.setMethod('POST');
         httpRequest.setTimeout(120000);
         httpRequest.setHeader('Authorization','APIKEY apikey=' + apiKey);
-        httpRequest.setEndpoint('https://api.metamind.io/predict');
+        httpRequest.setEndpoint(PREDICT);
         
         Http http = new Http();
         List<Prediction> predictions = new List<Prediction>();
