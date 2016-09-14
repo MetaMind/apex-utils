@@ -3,11 +3,15 @@ public class Vision {
     public static String VISION_API = 'https://api.metamind.io';
     public static String PREDICT = VISION_API + '/predict';
 
-    public static List<Prediction> predictUrl(String url, String apiKey, String model) {
-        return predictInternal(url, apiKey, model);
+    public static List<Prediction> predictUrl(String url, String access_token, String model) {
+        return predictInternal(url, access_token, model);
     }
 
-    private static List<Prediction> predictInternal(String url, String apiKey, String model) {
+    public static List<Prediction> predictBlob(blob fileBlob, String access_token, String model) {
+        return predictInternal(EncodingUtil.base64Encode(fileBlob), access_token, model);
+    }
+
+    private static List<Prediction> predictInternal(String sample, String access_token, String model) {
         string contentType = HttpFormBuilder.GetContentType();
         //  Compose the form
         string form64 = '';
@@ -15,7 +19,7 @@ public class Vision {
         form64 += HttpFormBuilder.WriteBoundary();
         form64 += HttpFormBuilder.WriteBodyParameter('modelId', EncodingUtil.urlEncode(model, 'UTF-8'));
         form64 += HttpFormBuilder.WriteBoundary();
-        form64 += HttpFormBuilder.WriteBodyParameter('sampleLocation', url);
+        form64 += HttpFormBuilder.WriteBodyParameter('sampleLocation', sample);
         form64 += HttpFormBuilder.WriteBoundary(HttpFormBuilder.EndingType.CrLf); 
  
         blob formBlob = EncodingUtil.base64Decode(form64);
@@ -29,7 +33,7 @@ public class Vision {
         httpRequest.setHeader('Content-Type', contentType);
         httpRequest.setMethod('POST');
         httpRequest.setTimeout(120000);
-        httpRequest.setHeader('Authorization','APIKEY apikey=' + apiKey);
+        httpRequest.setHeader('Authorization','APIKEY apikey=' + access_token);
         httpRequest.setEndpoint(PREDICT);
         
         Http http = new Http();

@@ -72,46 +72,6 @@ public class HttpFormBuilder {
     }
 
     /**
-     *  Wirte a file to the form's body.
-     */
-    public static WriteFileResult WriteFile(
-        string key,
-        string value,
-        string mimeType,
-        blob fileBlob) {
-        EndingType ending = EndingType.None;
-        string contentDisposition = 'Content-Disposition: form-data; name="' + key + '"; filename="' + value + '"';
-        string contentDispositionCrLf = contentDisposition + '\r\n';
-        blob contentDispositionCrLfBlob = blob.valueOf(contentDispositionCrLf);
-        string contentDispositionCrLf64 = EncodingUtil.base64Encode(contentDispositionCrlfBlob);
-        string content = SafelyPad(contentDisposition, contentDispositionCrLf64, '\r\n');
-        string contentType = 'Content-Type: ' + mimeType;
-        string contentTypeCrLf = contentType + '\r\n\r\n';
-        blob contentTypeCrLfBlob = blob.valueOf(contentTypeCrLf);
-        string contentTypeCrLf64 = EncodingUtil.base64Encode(contentTypeCrLfBlob);
-
-        content += SafelyPad(contentType, contentTypeCrLf64, '\r\n\r\n');
-
-        string file64 = EncodingUtil.base64Encode(fileBlob);
-        integer file64Length = file64.length();
-        string file64Ending = file64.substring(file64Length - 3, file64Length);
-
-        if (file64Ending.endsWith('==')) {
-            file64Ending = file64Ending.substring(0, 1) + '0K';//   0K = \r\n
-            file64 = file64.substring(0, file64Length - 3) + file64Ending;
-            ending = EndingType.CrLf;
-        } else if (file64Ending.endsWith('=')) {
-            file64Ending = file64Ending.substring(0, 2) + 'N';//    N = \r
-            file64 = file64.substring(0, file64Length - 3) + file64Ending;
-            ending = EndingType.Cr;
-        }
-
-        content += file64;
-
-        return new WriteFileResult(content, ending);
-    }
-
-    /**
      *  Write a key-value pair to the form's body.
      */
     public static string WriteBodyParameter(
@@ -129,21 +89,6 @@ public class HttpFormBuilder {
         content += SafelyPad(value, valueCrLf64, '\r\n');
 
         return content;
-    }
-
-    /**
-     *  Helper class containing the result of writing a file's blob to the form's body.
-     */
-    public class WriteFileResult {
-        public final string Content { get; private set; }
-        public final EndingType EndingType { get; private set; }
-
-        public WriteFileResult(
-            string content,
-            EndingType ending) {
-            this.Content = content;
-            this.EndingType = ending;
-        }
     }
 
     /**
