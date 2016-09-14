@@ -15,8 +15,6 @@ public class VisionController {
 
 ```
 <apex:page Controller="VisionController">
-  <h1>Congratulations</h1>
-  This is your new Page
   <apex:form >
   <apex:pageBlock >
       <apex:repeat value="{!callVisionUrl}" var="prediction">
