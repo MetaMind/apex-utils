@@ -8,7 +8,7 @@ public class Vision {
     }
 
     public static List<Prediction> predictBase64(String base64String, String access_token, String model) {
-        return predictInternal(url, access_token, model, true);
+        return predictInternal(base64String, access_token, model, true);
     }
 
     public static List<Prediction> predictBlob(blob fileBlob, String access_token, String model) {
