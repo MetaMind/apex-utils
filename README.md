@@ -3,12 +3,31 @@
 public class VisionController {
 
     public List<Vision.Prediction> getCallVisionUrl() {
-        return Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_Husky_with_Blue_Eyes.jpg',<ACCESS_TOKEN>,'GeneralImageClassifier');
+    
+        JWT jwt = new JWT('RS256');
+        jwt.cert = 'JWTCert';
+        jwt.iss = 'developer.force.com';
+        jwt.sub = 'john@doe.com';
+        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
+        jwt.exp = '3600';
+        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+        
+        
+    
+        return Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_Husky_with_Blue_Eyes.jpg',access_token,'GeneralImageClassifier');
     }
 
     public List<Vision.Prediction> getCallVisionContent() {
+        JWT jwt = new JWT('RS256');
+        jwt.cert = 'JWTCert';
+        jwt.iss = 'developer.force.com';
+        jwt.sub = 'john@doe.com';
+        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
+        jwt.exp = '3600';
+        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+
         ContentVersion content = [SELECT Title,VersionData FROM ContentVersion where Id = '06841000000LkfCAAS' LIMIT 1];
-        return Vision.predictBlob(content.VersionData, <ACCESS_TOKEN>, 'GeneralImageClassifier');
+        return Vision.predictBlob(content.VersionData, access_token, 'GeneralImageClassifier');
     }
 }
 ```
