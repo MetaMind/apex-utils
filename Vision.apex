@@ -41,7 +41,7 @@ public class Vision {
         httpRequest.setHeader('Content-Type', contentType);
         httpRequest.setMethod('POST');
         httpRequest.setTimeout(120000);
-        httpRequest.setHeader('Authorization','APIKEY apikey=' + access_token);
+        httpRequest.setHeader('Authorization','Bearer ' + access_token);
         httpRequest.setEndpoint(PREDICT);
 
         Http http = new Http();
