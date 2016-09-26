@@ -2,17 +2,14 @@
 ```
 public class VisionController {
 
-    public List<Vision.Prediction> getCallVisionUrl() {
-    
+    public List<Vision.Prediction> getCallVisionUrl() {    
         JWT jwt = new JWT('RS256');
         jwt.cert = 'JWTCert';
         jwt.iss = 'developer.force.com';
         jwt.sub = 'john@doe.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
         jwt.exp = '3600';
-        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
-        
-        
+        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);                
     
         return Vision.predictUrl('https://upload.wikimedia.org/wikipedia/commons/d/d2/Siberian_Husky_with_Blue_Eyes.jpg',access_token,'GeneralImageClassifier');
     }
