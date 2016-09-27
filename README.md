@@ -1,6 +1,6 @@
 #Install JWT Apex classes
 ```
-https://github.com/MetaMind/metamind-api-utils
+https://github.com/salesforceidentity/jwt
 ```
 
 #VisualForce Page example
