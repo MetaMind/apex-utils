@@ -1,3 +1,8 @@
+#Install JWT Apex classes
+```
+https://github.com/MetaMind/metamind-api-utils
+```
+
 #VisualForce Page example
 ```
 public class VisionController {
