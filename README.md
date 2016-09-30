@@ -44,15 +44,18 @@ public class VisionController {
 <apex:page Controller="VisionController">
   <apex:form >
   <apex:pageBlock >
+      <apex:image url="http://metamind.io/images/generalimage.jpg">
+      </apex:image>
+      <br/>
       <apex:repeat value="{!callVisionUrl}" var="prediction">
           <apex:outputText value="{!prediction.label}" />:<apex:outputText value="{!prediction.probability}" /><br/>
-    </apex:repeat>
+      </apex:repeat>
   </apex:pageBlock>
-  <apex:pageBlock >
-      <apex:repeat value="{!callVisionContent}" var="prediction">
-          <apex:outputText value="{!prediction.label}" />:<apex:outputText value="{!prediction.probability}" /><br/>
-    </apex:repeat>
-  </apex:pageBlock>
+<!--  <apex:pageBlock > -->
+<!--      <apex:repeat value="{!callVisionContent}" var="prediction"> -->
+<!--          <apex:outputText value="{!prediction.label}" />:<apex:outputText value="{!prediction.probability}" /><br/> -->
+<!--    </apex:repeat> -->
+<!--  </apex:pageBlock> -->
   </apex:form>
 </apex:page>
 ```
