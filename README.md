@@ -8,6 +8,17 @@ Install Vision.apex and HttpFormBuilder.apex
 ```
 public class VisionController {
 
+    public String getAccessToken() {
+        JWT jwt = new JWT('RS256');
+        jwt.cert = 'Metamind';
+        jwt.iss = 'developer.force.com';
+        jwt.sub = 'kedar@metamind.io';
+        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
+        jwt.exp = '3600';
+        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+        return access_token;    
+    }
+
     public List<Vision.Prediction> getCallVisionUrl() {
         // Get a new token
         JWT jwt = new JWT('RS256');
@@ -47,6 +58,12 @@ public class VisionController {
       <apex:image url="http://metamind.io/images/generalimage.jpg">
       </apex:image>
       <br/>
+    <apex:pageBlock >
+      <apex:repeat value="{!AccessToken}" var="accessToken">
+          Access Token:<apex:outputText value="{!accessToken}" /><br/>
+    </apex:repeat>
+    <br/>
+  </apex:pageBlock>
       <apex:repeat value="{!callVisionUrl}" var="prediction">
           <apex:outputText value="{!prediction.label}" />:<apex:outputText value="{!prediction.probability}" /><br/>
       </apex:repeat>
