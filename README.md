@@ -10,9 +10,9 @@ public class VisionController {
 
     public String getAccessToken() {
         JWT jwt = new JWT('RS256');
-        jwt.cert = 'Metamind';
+        jwt.cert = 'JWTCert';
         jwt.iss = 'developer.force.com';
-        jwt.sub = 'kedar@metamind.io';
+        jwt.sub = 'yourname@example.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
         jwt.exp = '3600';
         String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
