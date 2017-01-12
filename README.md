@@ -10,7 +10,8 @@ public class VisionController {
 
     public String getAccessToken() {
         JWT jwt = new JWT('RS256');
-        jwt.cert = 'JWTCert'; // or jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
+        // jwt.cert = 'JWTCert'; // If you used Salesforce Certificate to Signup to Predictive Services (Legacy signup)
+        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
@@ -22,7 +23,8 @@ public class VisionController {
     public List<Vision.Prediction> getCallVisionUrl() {
         // Get a new token
         JWT jwt = new JWT('RS256');
-        jwt.cert = 'JWTCert'; // or jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
+        // jwt.cert = 'JWTCert'; // If you used Salesforce Certificate to Signup to Predictive Services (Legacy signup)
+        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
@@ -36,7 +38,8 @@ public class VisionController {
     public List<Vision.Prediction> getCallVisionContent() {
         // Get a new token
         JWT jwt = new JWT('RS256');
-        jwt.cert = 'JWTCert'; // or jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
+        // jwt.cert = 'JWTCert'; // If you used Salesforce Certificate to Signup to Predictive Services (Legacy signup)
+        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
