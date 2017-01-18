@@ -5,7 +5,7 @@ Install Vision.apex and HttpFormBuilder.apex
 ```
 
 #Visualforce Page example
-```
+```java
 public class VisionController {
 
     public String getAccessToken() {
@@ -54,7 +54,30 @@ public class VisionController {
 }
 ```
 
+Alternatively, you can upload the `predictive_services.pem` into your Salesforce org as `Document` sobject and read it as below.
+
+```java
+    public String getAccessToken() {
+        Document doc = [SELECT body from Document where name = 'predictive_services' LIMIT 1];
+        String keyContents = doc.body.tostring();
+        keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
+        keyContents = keyContents.replace('-----END RSA PRIVATE KEY-----', '');
+        keyContents = keyContents.replace('\n', '');
+
+        // Get a new token
+        JWT jwt = new JWT('RS256');
+        jwt.pkcs8 = keyContents;
+        jwt.iss = 'developer.force.com';
+        jwt.sub = 'yourname@example.com';
+        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
+        jwt.exp = '3600';
+        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+        return access_token;    
+    }
+
 ```
+
+```xml
 <apex:page Controller="VisionController">
   <apex:form >
   <apex:pageBlock >
