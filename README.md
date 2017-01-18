@@ -22,14 +22,7 @@ public class VisionController {
 
     public List<Vision.Prediction> getCallVisionUrl() {
         // Get a new token
-        JWT jwt = new JWT('RS256');
-        // jwt.cert = 'JWTCert'; // If you used a Salesforce certificate to sign up for a Predictive Services account
-        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
-        jwt.iss = 'developer.force.com';
-        jwt.sub = 'yourname@example.com';
-        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
-        jwt.exp = '3600';
-        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);                
+        String access_token = getAccessToken();
     
         // Make a prediction using URL to a file
         return Vision.predictUrl('http://metamind.io/images/generalimage.jpg',access_token,'GeneralImageClassifier');
@@ -37,14 +30,7 @@ public class VisionController {
 
     public List<Vision.Prediction> getCallVisionContent() {
         // Get a new token
-        JWT jwt = new JWT('RS256');
-        // jwt.cert = 'JWTCert'; // If you used a Salesforce certificate to sign up for a Predictive Services account
-        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
-        jwt.iss = 'developer.force.com';
-        jwt.sub = 'yourname@example.com';
-        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
-        jwt.exp = '3600';
-        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+        String access_token = getAccessToken();
 
         // Make a prediction for an image stored in Salesforce
         // by passing the file as blob which is then converted to base64 string
