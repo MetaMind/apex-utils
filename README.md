@@ -19,36 +19,17 @@ public class VisionController {
         String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
         return access_token;    
     }
-
-    public List<Vision.Prediction> getCallVisionUrl() {
-        // Get a new token
-        String access_token = getAccessToken();
+     
+    // Alternate way to generate Access Token
+    // You can upload the `predictive_services.pem` into your Salesforce org as `File` sobject and read it as below.
     
-        // Make a prediction using URL to a file
-        return Vision.predictUrl('http://metamind.io/images/generalimage.jpg',access_token,'GeneralImageClassifier');
-    }
-
-    public List<Vision.Prediction> getCallVisionContent() {
-        // Get a new token
-        String access_token = getAccessToken();
-
-        // Make a prediction for an image stored in Salesforce
-        // by passing the file as blob which is then converted to base64 string
-        ContentVersion content = [SELECT Title,VersionData FROM ContentVersion where Id = '06841000000LkfCAAS' LIMIT 1];
-        return Vision.predictBlob(content.VersionData, access_token, 'GeneralImageClassifier');
-    }
-}
-```
-
-Alternatively, you can upload the `predictive_services.pem` into your Salesforce org as `Document` sobject and read it as below.
-
-```java
-    public String getAccessToken() {
-        Document doc = [SELECT body from Document where name = 'predictive_services' LIMIT 1];
-        String keyContents = doc.body.tostring();
+    public String getAccessTokenFromFile() {        
+        ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='predictive_services' LIMIT 1];
+        String keyContents = base64Content.VersionData.tostring();
         keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
         keyContents = keyContents.replace('-----END RSA PRIVATE KEY-----', '');
         keyContents = keyContents.replace('\n', '');
+        jwt.pkcs8 = keyContents;
 
         // Get a new token
         JWT jwt = new JWT('RS256');
@@ -61,6 +42,26 @@ Alternatively, you can upload the `predictive_services.pem` into your Salesforce
         return access_token;    
     }
 
+    public List<Vision.Prediction> getCallVisionUrl() {
+        // Get a new token
+        String access_token = getAccessToken();
+        // or String access_token = getAccessTokenFromFile();
+    
+        // Make a prediction using URL to a file
+        return Vision.predictUrl('http://metamind.io/images/generalimage.jpg',access_token,'GeneralImageClassifier');
+    }
+
+    public List<Vision.Prediction> getCallVisionContent() {
+        // Get a new token
+        String access_token = getAccessToken();
+        // or String access_token = getAccessTokenFromFile();
+
+        // Make a prediction for an image stored in Salesforce
+        // by passing the file as blob which is then converted to base64 string
+        ContentVersion content = [SELECT Title,VersionData FROM ContentVersion where Id = '06841000000LkfCAAS' LIMIT 1];
+        return Vision.predictBlob(content.VersionData, access_token, 'GeneralImageClassifier');
+    }
+}
 ```
 
 ```xml
