@@ -1,39 +1,26 @@
 #Install JWT Apex classes
 ```
-Install JWT.apex and JWTBearer.apex from https://github.com/salesforceidentity/jwt
+Install JWT.apex and JWTBearer.apex from [https://github.com/salesforceidentity/jwt](https://github.com/salesforceidentity/jwt)
 Install Vision.apex and HttpFormBuilder.apex
 ```
 
 #Visualforce Page example
 ```java
 public class VisionController {
-
-    public String getAccessToken() {
-        JWT jwt = new JWT('RS256');
-        // jwt.cert = 'JWTCert'; // If you used a Salesforce certificate to sign up for a Predictive Services account
-        jwt.pkcs8 = 'MIICXQIBAAKBgQC4U4Bma7kKa0CLU... contents from "predictive_services.pem" RSA private Key';
-        jwt.iss = 'developer.force.com';
-        jwt.sub = 'yourname@example.com';
-        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
-        jwt.exp = '3600';
-        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
-        return access_token;    
-    }
-     
-    // Alternate way to generate Access Token
     // You can upload the `predictive_services.pem` into your Salesforce org as `File` sobject and read it as below.
-    
-    public String getAccessTokenFromFile() {        
+    public String getAccessToken() {
+        // Ignore the File upload part and "jwt.pkcs" if you used a Salesforce certificate to sign up 
+        // for a Predictive Services account
         ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='predictive_services' LIMIT 1];
         String keyContents = base64Content.VersionData.tostring();
         keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
         keyContents = keyContents.replace('-----END RSA PRIVATE KEY-----', '');
         keyContents = keyContents.replace('\n', '');
-        jwt.pkcs8 = keyContents;
 
         // Get a new token
         JWT jwt = new JWT('RS256');
-        jwt.pkcs8 = keyContents;
+        // jwt.cert = 'JWTCert'; // Uncomment this if you used a Salesforce certificate to sign up for a Predictive Services account
+        jwt.pkcs8 = keyContents; // Comment this if you are using jwt.cert
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
         jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
@@ -45,7 +32,6 @@ public class VisionController {
     public List<Vision.Prediction> getCallVisionUrl() {
         // Get a new token
         String access_token = getAccessToken();
-        // or String access_token = getAccessTokenFromFile();
     
         // Make a prediction using URL to a file
         return Vision.predictUrl('http://metamind.io/images/generalimage.jpg',access_token,'GeneralImageClassifier');
@@ -54,7 +40,6 @@ public class VisionController {
     public List<Vision.Prediction> getCallVisionContent() {
         // Get a new token
         String access_token = getAccessToken();
-        // or String access_token = getAccessTokenFromFile();
 
         // Make a prediction for an image stored in Salesforce
         // by passing the file as blob which is then converted to base64 string
