@@ -1,6 +1,6 @@
 #Install JWT Apex classes
 ```
-Install JWT.apex and JWTBearer.apex from [https://github.com/salesforceidentity/jwt](https://github.com/salesforceidentity/jwt)
+Install JWT.apex and JWTBearer.apex from https://github.com/salesforceidentity/jwt
 Install Vision.apex and HttpFormBuilder.apex
 ```
 
