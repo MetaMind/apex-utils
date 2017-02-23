@@ -7,10 +7,10 @@ Install Vision.apex and HttpFormBuilder.apex
 #Visualforce Page example
 ```java
 public class VisionController {
-    // You can upload the `predictive_services.pem` into your Salesforce org as `File` sobject and read it as below.
+    // You can upload the `predictive_services.pem` into your Salesforce org as `File` sObject and read it as below
     public String getAccessToken() {
         // Ignore the File upload part and "jwt.pkcs" if you used a Salesforce certificate to sign up 
-        // for a Predictive Services account
+        // for an Einstein Platform account
         ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='predictive_services' LIMIT 1];
         String keyContents = base64Content.VersionData.tostring();
         keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
@@ -19,7 +19,7 @@ public class VisionController {
 
         // Get a new token
         JWT jwt = new JWT('RS256');
-        // jwt.cert = 'JWTCert'; // Uncomment this if you used a Salesforce certificate to sign up for a Predictive Services account
+        // jwt.cert = 'JWTCert'; // Uncomment this if you used a Salesforce certificate to sign up for an Einstein Platform account
         jwt.pkcs8 = keyContents; // Comment this if you are using jwt.cert
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
