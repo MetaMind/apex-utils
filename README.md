@@ -7,11 +7,11 @@ Install Vision.apex and HttpFormBuilder.apex
 #Visualforce Page example
 ```java
 public class VisionController {
-    // You can upload the `predictive_services.pem` into your Salesforce org as `File` sObject and read it as below
+    // You can upload the `einstein_platform.pem` into your Salesforce org as `File` sObject and read it as below
     public String getAccessToken() {
         // Ignore the File upload part and "jwt.pkcs" if you used a Salesforce certificate to sign up 
         // for an Einstein Platform account
-        ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='predictive_services' LIMIT 1];
+        ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='einstein_platform' OR  Title='predictive_services' ORDER BY Title LIMIT 1];
         String keyContents = base64Content.VersionData.tostring();
         keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
         keyContents = keyContents.replace('-----END RSA PRIVATE KEY-----', '');
