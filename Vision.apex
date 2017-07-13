@@ -1,6 +1,6 @@
 public class Vision {
 
-    public static String VISION_API = 'https://api.einstein.ai/v1/vision';
+    public static String VISION_API = 'https://api.metamind.io/v1/vision';
     public static String PREDICT = VISION_API + '/predict';
 
     public static List<Prediction> predictUrl(String url, String access_token, String model) {
