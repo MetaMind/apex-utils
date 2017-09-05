@@ -34,7 +34,7 @@ public class VisionController {
         String access_token = getAccessToken();
     
         // Make a prediction using URL to a file
-        return Vision.predictUrl('http://einstein.ai/images/generalimage.jpg',access_token,'GeneralImageClassifier');
+        return Vision.predictUrl('https://einstein.ai/images/generalimage.jpg',access_token,'GeneralImageClassifier');
     }
 
     public List<Vision.Prediction> getCallVisionContent() {
