@@ -53,7 +53,7 @@ public class VisionController {
 <apex:page Controller="VisionController">
   <apex:form >
   <apex:pageBlock >
-      <apex:image url="http://einstein.ai/images/generalimage.jpg">
+      <apex:image url="https://einstein.ai/images/generalimage.jpg">
       </apex:image>
       <br/>
       <apex:repeat value="{!AccessToken}" var="accessToken">
