@@ -4,7 +4,7 @@ Install JWT.apex and JWTBearer.apex from https://github.com/salesforceidentity/j
 Install Vision.apex and HttpFormBuilder.apex
 ```
 
-#Visualforce Page example
+#Visualforce page example
 ```java
 public class VisionController {
     // You can upload the `einstein_platform.pem` into your Salesforce org as `File` sObject and read it as below
@@ -23,9 +23,9 @@ public class VisionController {
         jwt.pkcs8 = keyContents; // Comment this if you are using jwt.cert
         jwt.iss = 'developer.force.com';
         jwt.sub = 'yourname@example.com';
-        jwt.aud = 'https://api.metamind.io/v1/oauth2/token';
+        jwt.aud = 'https://api.einstein.ai/v2/oauth2/token';
         jwt.exp = '3600';
-        String access_token = JWTBearerFlow.getAccessToken('https://api.metamind.io/v1/oauth2/token', jwt);
+        String access_token = JWTBearerFlow.getAccessToken('https://api.einstein.ai/v2/oauth2/token', jwt);
         return access_token;    
     }
 
@@ -34,7 +34,7 @@ public class VisionController {
         String access_token = getAccessToken();
     
         // Make a prediction using URL to a file
-        return Vision.predictUrl('http://metamind.io/images/generalimage.jpg',access_token,'GeneralImageClassifier');
+        return Vision.predictUrl('https://einstein.ai/images/generalimage.jpg',access_token,'GeneralImageClassifier');
     }
 
     public List<Vision.Prediction> getCallVisionContent() {
@@ -53,7 +53,7 @@ public class VisionController {
 <apex:page Controller="VisionController">
   <apex:form >
   <apex:pageBlock >
-      <apex:image url="http://metamind.io/images/generalimage.jpg">
+      <apex:image url="https://einstein.ai/images/generalimage.jpg">
       </apex:image>
       <br/>
       <apex:repeat value="{!AccessToken}" var="accessToken">
