@@ -4,7 +4,7 @@ Install JWT.apex and JWTBearer.apex from https://github.com/salesforceidentity/j
 Install Vision.apex and HttpFormBuilder.apex
 ```
 
-#Visualforce page example
+#Visualforce page example- project
 ```java
 public class VisionController {
     // You can upload the `einstein_platform.pem` into your Salesforce org as `File` sObject and read it as below
